@@ -1,4 +1,5 @@
--->ultralytics
--->gradio
--->pillow
--->opencv-python
+ultralytics
+gradio
+pillow
+opencv-python
+numpy
