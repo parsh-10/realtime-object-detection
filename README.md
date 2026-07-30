@@ -1,18 +1,22 @@
-# 🎯 Real-Time Object Detection with YOLOv8 + COCO
+# 🎯 Real-Time Object Detection with YOLOv11 + COCO
 
-Fine-tuned **YOLOv8s** on the COCO128 dataset to detect **80 object classes** in real time. Built with a Gradio web interface for easy image upload and instant inference.
+Fine-tuned **YOLOv11s** on the COCO128 dataset to detect **80 object classes** in real time. Built with a Gradio web interface supporting both image upload and live webcam detection.
 
 ---
 
-## 📊 Results
+## 📊 Model Comparison — YOLOv8s vs YOLOv11s
 
-| Metric | Score |
-|--------|-------|
-| **mAP@50** | 92.1% |
-| **mAP@50-95** | 77.6% |
-| **Precision** | 94.0% |
-| **Recall** | 85.3% |
-| **Inference Speed** | 5.2ms per image (T4 GPU) |
+| Metric | YOLOv8s | YOLOv11s (current) | Winner |
+|--------|---------|-------------------|--------|
+| **mAP@50** | 92.1% | **92.7%** | 🏆 YOLOv11 |
+| **mAP@50-95** | 77.6% | **78.9%** | 🏆 YOLOv11 |
+| **Precision** | 94.0% | 92.8% | 🏆 YOLOv8 |
+| **Recall** | 85.3% | 85.3% | 🤝 Tie |
+| **Parameters** | 11.1M | **9.4M** | 🏆 YOLOv11 |
+| **GFLOPs** | 28.6 | **21.5** | 🏆 YOLOv11 |
+| **Inference Speed** | 5.2ms | 5.6ms | 🏆 YOLOv8 |
+
+> YOLOv11s achieves **higher accuracy with fewer parameters** — making it more efficient for real-world deployment.
 
 ---
 
@@ -34,7 +38,11 @@ Then open `http://localhost:7860` in your browser.
 
 ---
 
-> **Sample detections:** person, car, bus, dog, cat, bicycle, airplane, bottle, chair, and 71 more classes.
+## ✨ Features
+
+- 📷 **Image Detection** — Upload any image and detect objects instantly
+- 🎥 **Live Webcam** — Real-time detection through your webcam feed
+- 80 **Object Classes** — People, vehicles, animals, food, everyday items & more
 
 ---
 
@@ -53,7 +61,7 @@ Then open `http://localhost:7860` in your browser.
 
 | Component | Tool |
 |-----------|------|
-| **Model** | YOLOv8s (Ultralytics) |
+| **Model** | YOLOv11s (Ultralytics) |
 | **Framework** | PyTorch |
 | **Demo UI** | Gradio |
 | **Training** | Google Colab (Tesla T4 GPU) |
@@ -65,7 +73,8 @@ Then open `http://localhost:7860` in your browser.
 
 ```
 realtime-object-detection/
-├── app.py                  # Gradio web demo
+├── app.py                  # Gradio web demo (image + webcam)
+├── yolo11_best.pt          # Fine-tuned YOLOv11s weights
 ├── requirements.txt        # Dependencies
 └── README.md               # Project documentation
 ```
@@ -74,26 +83,28 @@ realtime-object-detection/
 
 ## 🔍 Model Details
 
-- **Architecture:** YOLOv8s (small variant — 11.1M parameters, 28.6 GFLOPs)
+- **Architecture:** YOLOv11s — 101 layers, 9.4M parameters, 21.5 GFLOPs
 - **Training:** 50 epochs, image size 640×640, batch size 16
 - **Base Weights:** Pretrained on COCO, fine-tuned on COCO128
-- **Best Performing Classes:** Airplane (99.5%), Bus (99.5%), Stop Sign (99.5%), Cat (99.5%)
+- **Best Performing Classes:** Airplane (99.5%), Bus (99.5%), Cat (99.5%), Pizza (99.5%)
 
 ---
 
 ## ⚠️ Known Limitations
 
-- Trained on COCO's 80 classes — domain-specific objects (e.g. cricket balls) may be misclassified
+- Detects only COCO's 80 classes — domain-specific objects (e.g. pens, erasers, cricket balls) may be misclassified
 - Performance drops on heavily occluded or very small objects
-- Planned improvement: fine-tune on full COCO val2017 dataset
+- **Planned fix:** Custom dataset fine-tuning for domain-specific objects
 
 ---
 
 ## 🗺️ Roadmap
 
-- [x] Fine-tune YOLOv8s on COCO128
-- [x] Build Gradio web demo
-- [ ] Add live webcam / video stream detection
+- [x] Fine-tune YOLOv8s on COCO128 (mAP@50: 92.1%)
+- [x] Fine-tune YOLOv11s on COCO128 (mAP@50: 92.7%)
+- [x] Build Gradio web demo with image + webcam support
+- [x] Model comparison (YOLOv8 vs YOLOv11)
+- [ ] Custom dataset training (pens, erasers & domain-specific objects)
 - [ ] Fine-tune on full COCO val2017 dataset
 - [ ] Deploy permanently on Hugging Face Spaces
 
